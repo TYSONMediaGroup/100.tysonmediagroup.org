@@ -45,9 +45,7 @@ html, body {
     user-select: none;
 }
 
-/* ==========================================================================
-   Atmospheric Stage Viewport
-   ========================================================================== */
+/* Atmospheric Viewport */
 .stage-viewport {
     position: relative;
     width: 100vw;
@@ -69,9 +67,7 @@ html, body {
     z-index: 1;
 }
 
-/* ==========================================================================
-   Header: Always Visible Top Framing
-   ========================================================================== */
+/* Header: Official Banner & Perspective in Motion */
 .stage-header {
     position: absolute;
     top: 2rem;
@@ -83,7 +79,7 @@ html, body {
     padding: 0 3rem;
     z-index: 25;
     pointer-events: auto;
-    opacity: 0.88;
+    opacity: 0.9;
     transition: opacity 0.4s ease;
 }
 
@@ -115,14 +111,11 @@ html, body {
     font-weight: 300;
     font-style: normal;
     font-size: 1.25rem;
-    color: rgba(255, 255, 255, 0.72);
+    color: rgba(255, 255, 255, 0.75);
     letter-spacing: 0.1em;
-    text-transform: none;
 }
 
-/* ==========================================================================
-   Center Stage: Projection Engine
-   ========================================================================== */
+/* Centerpiece */
 .animation-centerpiece {
     position: relative;
     width: 90vw;
@@ -132,6 +125,7 @@ html, body {
     align-items: center;
     justify-content: center;
     z-index: 10;
+    cursor: pointer;
 }
 
 .stage-layer {
@@ -158,11 +152,10 @@ html, body {
     transition: opacity 0.95s cubic-bezier(0.16, 1, 0.3, 1), transform 0.95s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-/* Stage 4 Slow Cinematic Fade */
 .stage-layer.slow-fade-out {
     opacity: 0 !important;
     transform: translateY(-10px) scale(0.98) !important;
-    transition: opacity 2.1s cubic-bezier(0.16, 1, 0.3, 1), transform 2.1s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transition: opacity 2.2s cubic-bezier(0.16, 1, 0.3, 1), transform 2.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 .trace-svg {
@@ -171,9 +164,7 @@ html, body {
     overflow: visible;
 }
 
-/* ==========================================================================
-   Typography Standards
-   ========================================================================== */
+/* Typography Standards */
 .text-borg {
     font-family: var(--font-borg) !important;
     font-size: 154px;
@@ -203,28 +194,28 @@ html, body {
     dominant-baseline: central;
 }
 
-/* ==========================================================================
-   The Signature Vector Trace Mechanism
-   (Sequential letter pen-drawing + Unified full-phrase fill wash)
-   ========================================================================== */
+/* Signature Vector Trace Mechanism using Immutable CSS Custom Properties */
 .trace-char {
     display: inline;
     stroke: var(--text-white);
     stroke-width: 1.1px;
     fill: transparent;
-    stroke-dasharray: 420;
-    stroke-dashoffset: 420;
+    stroke-dasharray: 450;
+    stroke-dashoffset: 450;
     opacity: 0;
 }
 
-.stage-layer.animating .trace-char {
-    animation: drawIndividualChar 0.45s cubic-bezier(0.2, 0.85, 0.4, 1) forwards,
-               fillFullPhrase 0.85s ease forwards;
+.stage-layer.animating .text-garamond-thin .trace-char {
+    animation-name: drawIndividualChar, fillFullPhrase;
+    animation-duration: 0.65s, 0.95s;
+    animation-timing-function: cubic-bezier(0.25, 0.9, 0.35, 1), ease;
+    animation-fill-mode: forwards, forwards;
+    animation-delay: var(--delay, 0s), var(--fill-delay, 1.45s);
 }
 
 @keyframes drawIndividualChar {
     0% {
-        stroke-dashoffset: 420;
+        stroke-dashoffset: 450;
         opacity: 0;
         stroke-width: 1.8px;
     }
@@ -247,7 +238,7 @@ html, body {
     }
 }
 
-/* Borg 9 specific outline tuning */
+/* Borg 9 vector trace */
 .text-borg .trace-char {
     stroke-width: 1.5px;
     stroke-dasharray: 520;
@@ -255,8 +246,11 @@ html, body {
 }
 
 .stage-layer.animating .text-borg .trace-char {
-    animation: drawBorgChar 0.5s cubic-bezier(0.2, 0.85, 0.4, 1) forwards,
-               fillFullPhrase 0.85s ease forwards;
+    animation-name: drawBorgChar, fillFullPhrase;
+    animation-duration: 0.70s, 0.95s;
+    animation-timing-function: cubic-bezier(0.25, 0.9, 0.35, 1), ease;
+    animation-fill-mode: forwards, forwards;
+    animation-delay: var(--delay, 0s), var(--fill-delay, 1.45s);
 }
 
 @keyframes drawBorgChar {
@@ -275,7 +269,7 @@ html, body {
     }
 }
 
-/* Stage 5: Slower Crossfade (100 Subscribers -> Thank You) */
+/* Stage 5: Slower Crossfade */
 .finale-container {
     position: relative;
     width: 100%;
@@ -322,9 +316,7 @@ html, body {
     filter: drop-shadow(0 0 28px rgba(255, 255, 255, 0.38));
 }
 
-/* ==========================================================================
-   Footer: Always Visible Italic tysonmediagroup.org & Dock Controls
-   ========================================================================== */
+/* Footer: Clickable Italic tysonmediagroup.org & Dock Controls */
 .stage-footer {
     position: absolute;
     bottom: 2rem;
@@ -336,7 +328,7 @@ html, body {
     gap: 1.15rem;
     z-index: 25;
     pointer-events: auto;
-    opacity: 0.88;
+    opacity: 0.9;
     transition: opacity 0.4s ease;
 }
 
