@@ -8,25 +8,456 @@
     
     <!-- Preload Assets -->
     <link rel="preload" href="assets/TYSONMediaGroupBanner.png" as="image">
+    <link rel="preload" href="assets/fonts/borg9.otf" as="font" type="font/otf" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500&display=block" rel="stylesheet">
     
-    <link rel="stylesheet" href="styles.css?v=4">
+    <style>
+/* ==========================================================================
+   TYSON MEDIA GROUP — 100 SUBSCRIBERS CELEBRATION
+   100-tysonmediagroup-org
+   Aesthetic: Midnight Noir Vector Trace & Perspective in Motion
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500&display=block');
+
+@font-face {
+    font-family: 'Borg 9';
+    src: url('assets/fonts/borg9.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+:root {
+    --bg-black: #000000;
+    --text-white: #ffffff;
+    --text-muted: #8e96a4;
+    --text-dim: #454a55;
+    --accent-glow: rgba(255, 255, 255, 0.3);
+    --border-subtle: rgba(255, 255, 255, 0.12);
+    --font-borg: 'Borg 9', 'Borg Nine', sans-serif;
+    --font-garamond: 'Cormorant Garamond', Georgia, serif;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--bg-black);
+    color: var(--text-white);
+    font-family: var(--font-garamond);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    user-select: none;
+}
+
+/* Atmospheric Viewport */
+.stage-viewport {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03) 0%, rgba(4, 4, 4, 0.98) 65%, #000000 100%);
+    overflow: hidden;
+}
+
+.stage-viewport::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at 50% 50%, transparent 45%, rgba(0, 0, 0, 0.85) 100%);
+    z-index: 1;
+}
+
+/* Header: Official Banner & Perspective in Motion */
+.stage-header {
+    position: absolute;
+    top: 2rem;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 3rem;
+    z-index: 25;
+    pointer-events: auto;
+    opacity: 0.9;
+    transition: opacity 0.4s ease;
+}
+
+.stage-header:hover {
+    opacity: 1;
+}
+
+.header-banner-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.header-banner-link:hover {
+    transform: scale(1.02);
+    filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.3));
+}
+
+.header-banner-img {
+    height: 32px;
+    width: auto;
+    max-width: 250px;
+    object-fit: contain;
+}
+
+.header-perspective-text {
+    font-family: var(--font-garamond);
+    font-weight: 300;
+    font-style: normal;
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.75);
+    letter-spacing: 0.1em;
+}
+
+/* Centerpiece */
+.animation-centerpiece {
+    position: relative;
+    width: 90vw;
+    max-width: 1280px;
+    height: 380px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    cursor: pointer;
+}
+
+.stage-layer {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: scale(0.99);
+}
+
+.stage-layer.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1);
+}
+
+.stage-layer.fade-out {
+    opacity: 0 !important;
+    transform: translateY(-8px) scale(0.985) !important;
+    transition: opacity 0.95s cubic-bezier(0.16, 1, 0.3, 1), transform 0.95s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.stage-layer.slow-fade-out {
+    opacity: 0 !important;
+    transform: translateY(-10px) scale(0.98) !important;
+    transition: opacity 2.2s cubic-bezier(0.16, 1, 0.3, 1), transform 2.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.trace-svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+/* Typography Standards */
+.text-borg {
+    font-family: var(--font-borg) !important;
+    font-size: 154px;
+    font-weight: normal;
+    letter-spacing: 0.08em;
+    text-anchor: middle;
+    dominant-baseline: central;
+}
+
+.text-garamond-thin {
+    font-family: var(--font-garamond), Georgia, serif !important;
+    font-style: normal !important;
+    font-weight: 300 !important;
+    font-size: 88px;
+    letter-spacing: 0.06em;
+    text-anchor: middle;
+    dominant-baseline: central;
+}
+
+.text-stage-finale {
+    font-family: var(--font-garamond), Georgia, serif !important;
+    font-style: normal !important;
+    font-weight: 300 !important;
+    font-size: 96px;
+    letter-spacing: 0.06em;
+    text-anchor: middle;
+    dominant-baseline: central;
+}
+
+/* Signature Vector Trace Mechanism using CSS Custom Properties */
+.trace-char {
+    display: inline;
+    stroke: var(--text-white);
+    stroke-width: 1.1px;
+    fill: transparent;
+    stroke-dasharray: 450;
+    stroke-dashoffset: 450;
+    opacity: 0;
+}
+
+.stage-layer.animating .text-garamond-thin .trace-char {
+    animation-name: drawIndividualChar, fillFullPhrase;
+    animation-duration: 0.65s, 0.95s;
+    animation-timing-function: cubic-bezier(0.25, 0.9, 0.35, 1), ease;
+    animation-fill-mode: forwards, forwards;
+    animation-delay: var(--delay, 0s), var(--fill-delay, 1.45s);
+}
+
+@keyframes drawIndividualChar {
+    0% {
+        stroke-dashoffset: 450;
+        opacity: 0;
+        stroke-width: 1.8px;
+    }
+    18% {
+        opacity: 1;
+    }
+    100% {
+        stroke-dashoffset: 0;
+        opacity: 1;
+        stroke-width: 1.1px;
+    }
+}
+
+@keyframes fillFullPhrase {
+    0%, 60% {
+        fill: transparent;
+    }
+    100% {
+        fill: var(--text-white);
+    }
+}
+
+/* Borg 9 vector trace */
+.text-borg .trace-char {
+    stroke-width: 1.5px;
+    stroke-dasharray: 520;
+    stroke-dashoffset: 520;
+}
+
+.stage-layer.animating .text-borg .trace-char {
+    animation-name: drawBorgChar, fillFullPhrase;
+    animation-duration: 0.70s, 0.95s;
+    animation-timing-function: cubic-bezier(0.25, 0.9, 0.35, 1), ease;
+    animation-fill-mode: forwards, forwards;
+    animation-delay: var(--delay, 0s), var(--fill-delay, 1.45s);
+}
+
+@keyframes drawBorgChar {
+    0% {
+        stroke-dashoffset: 520;
+        opacity: 0;
+        stroke-width: 2.2px;
+    }
+    16% {
+        opacity: 1;
+    }
+    100% {
+        stroke-dashoffset: 0;
+        opacity: 1;
+        stroke-width: 1.5px;
+    }
+}
+
+/* Stage 5: Slower Crossfade */
+.finale-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.finale-phrase {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0.99);
+    transition: opacity 1.8s cubic-bezier(0.16, 1, 0.3, 1), transform 1.8s cubic-bezier(0.16, 1, 0.3, 1), filter 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+}
+
+.finale-phrase.visible {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+}
+
+.finale-phrase.dissolve-out {
+    opacity: 0 !important;
+    transform: scale(1.02) !important;
+    filter: blur(6px);
+}
+
+.phrase-subscribers text {
+    fill: var(--text-white);
+    stroke: none;
+    filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.25));
+}
+
+.phrase-thankyou text {
+    fill: var(--text-white);
+    stroke: none;
+    filter: drop-shadow(0 0 28px rgba(255, 255, 255, 0.38));
+}
+
+/* Footer: Clickable Italic tysonmediagroup.org & Dock Controls */
+.stage-footer {
+    position: absolute;
+    bottom: 2rem;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.15rem;
+    z-index: 25;
+    pointer-events: auto;
+    opacity: 0.9;
+    transition: opacity 0.4s ease;
+}
+
+.stage-footer:hover {
+    opacity: 1;
+}
+
+.footer-domain-link {
+    font-family: var(--font-garamond), Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.45rem;
+    color: rgba(255, 255, 255, 0.75);
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    transition: color 0.3s ease, text-shadow 0.3s ease, transform 0.3s ease;
+    display: inline-block;
+}
+
+.footer-domain-link:hover {
+    color: var(--text-white);
+    text-shadow: 0 0 16px rgba(255, 255, 255, 0.45);
+    transform: scale(1.02);
+}
+
+.controls-dock {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    background: rgba(14, 14, 14, 0.72);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--border-subtle);
+    border-radius: 9999px;
+    padding: 0.35rem 0.85rem;
+}
+
+.ctrl-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-family: var(--font-sans);
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.65rem;
+    border-radius: 9999px;
+    transition: color 0.25s ease, background 0.25s ease;
+}
+
+.ctrl-btn:hover {
+    color: var(--text-white);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.ctrl-btn svg {
+    width: 13px;
+    height: 13px;
+    stroke: currentColor;
+    fill: none;
+}
+
+.ctrl-divider {
+    width: 1px;
+    height: 14px;
+    background: var(--border-subtle);
+}
+
+.kbd-hint {
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .text-borg { font-size: 110px; }
+    .text-garamond-thin { font-size: 68px; }
+    .text-stage-finale { font-size: 72px; }
+    .animation-centerpiece { height: 280px; }
+    .stage-header { padding: 0 1.5rem; top: 1.5rem; }
+    .stage-footer { bottom: 1.5rem; }
+    .header-banner-img { height: 26px; }
+    .header-perspective-text { font-size: 1.05rem; }
+}
+
+@media (max-width: 600px) {
+    .text-borg { font-size: 82px; }
+    .text-garamond-thin { font-size: 46px; }
+    .text-stage-finale { font-size: 50px; }
+    .animation-centerpiece { height: 220px; width: 95vw; }
+    .header-perspective-text { font-size: 0.92rem; }
+    .footer-domain-link { font-size: 1.25rem; }
+}
+
+    </style>
 </head>
 <body>
     <div class="stage-viewport">
         <!-- Top Header: Official TYSONMediaGroupBanner on left & Perspective in Motion on right -->
         <header class="stage-header" id="stage-header">
             <a href="https://tysonmediagroup.org" target="_blank" class="header-banner-link" title="Visit tysonmediagroup.org">
-                <img src="assets/TYSONMediaGroupBanner.png?v=4" alt="TYSON Media Group" class="header-banner-img">
+                <img src="assets/TYSONMediaGroupBanner.png?v=5" alt="TYSON Media Group" class="header-banner-img">
             </a>
             <div class="header-perspective-text">
                 Perspective in Motion
             </div>
         </header>
 
-        <!-- Main Animation Centerpiece (Clickable to Replay) -->
+        <!-- Main Animation Centerpiece (Click anywhere to Replay) -->
         <main class="animation-centerpiece" id="animation-stage" aria-live="polite" title="Click anywhere to Replay">
             
             <!-- STAGE 1: "100" in Borg 9 Font -->
@@ -122,6 +553,6 @@
         <audio id="audio-soundtrack" src="assets/soundtrack.mp3" preload="auto"></audio>
     </div>
 
-    <script src="script.js?v=4"></script>
+    <script src="script.js?v=5"></script>
 </body>
 </html>
