@@ -1,6 +1,6 @@
 /**
  * TYSON Media Group — 100 Subscribers Milestone Celebration
- * Orchestration controller: Vector trace sequence, font loader guard, and crossfade engine.
+ * Orchestration controller: Signature vector trace, unified phrase fill, and crossfade engine.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -15,9 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const phraseSubscribers = document.getElementById('phrase-subscribers');
     const phraseThankYou = document.getElementById('phrase-thankyou');
     
-    // UI Chrome
-    const stageHeader = document.getElementById('stage-header');
-    const stageFooter = document.getElementById('stage-footer');
+    // Controls
     const btnReplay = document.getElementById('btn-replay');
     const btnSound = document.getElementById('btn-sound');
     const iconSoundOff = document.getElementById('icon-sound-off');
@@ -43,47 +41,48 @@ document.addEventListener('DOMContentLoaded', () => {
         currentTimeoutIds = [];
     }
 
-    // Configure animation delays for characters based on their data-delay attribute
-    function configureCharDelays(stageElement, fillDelayOffset = 0.65) {
+    /**
+     * Configure characters so they draw sequentially one-by-one,
+     * and then the whole phrase washes in with solid white fill simultaneously!
+     */
+    function configureStageDelays(stageElement, unifiedFillDelay) {
         if (!stageElement) return;
         const chars = stageElement.querySelectorAll('.trace-char');
         chars.forEach(char => {
             const drawDelay = parseFloat(char.getAttribute('data-delay') || '0');
-            const fillDelay = drawDelay + fillDelayOffset;
-            char.style.animationDelay = `${drawDelay}s, ${fillDelay}s`;
+            char.style.animationDelay = `${drawDelay}s, ${unifiedFillDelay}s`;
         });
     }
 
-    // Configure all trace stages with smooth deliberate delays
-    configureCharDelays(stage1, 0.70);
-    configureCharDelays(stage2, 0.65);
-    configureCharDelays(stage3, 0.65);
-    configureCharDelays(stage4, 0.65);
+    // Setup signature timing: sequential pen drawing + simultaneous phrase fill
+    function setupAllStageDelays() {
+        configureStageDelays(stage1, 0.95);  // "100" fills at 0.95s
+        configureStageDelays(stage2, 1.25);  // "2,199 days" fills at 1.25s
+        configureStageDelays(stage3, 1.15);  // "80 videos" fills at 1.15s
+        configureStageDelays(stage4, 1.40);  // "14,140 views" fills at 1.40s
+    }
+
+    setupAllStageDelays();
 
     // Reset an individual stage element
     function resetStage(stageElement) {
         if (!stageElement) return;
-        stageElement.classList.remove('active', 'animating', 'filled', 'fade-out', 'slow-fade-out');
+        stageElement.classList.remove('active', 'animating', 'fade-out', 'slow-fade-out');
         const chars = stageElement.querySelectorAll('.trace-char');
         chars.forEach(ch => {
             ch.style.animation = 'none';
-            void ch.offsetWidth; // Force DOM reflow
+            void ch.offsetWidth; // Force reflow
             ch.style.animation = '';
         });
     }
 
-    // Reset the full experience to pristine starting conditions
+    // Reset experience
     function resetAll() {
         clearAllTimers();
         isRunning = false;
 
         [stage1, stage2, stage3, stage4, stage5].forEach(resetStage);
-
-        // Re-apply char animation delays
-        configureCharDelays(stage1, 0.70);
-        configureCharDelays(stage2, 0.65);
-        configureCharDelays(stage3, 0.65);
-        configureCharDelays(stage4, 0.65);
+        setupAllStageDelays();
 
         if (phraseSubscribers) {
             phraseSubscribers.classList.remove('visible', 'dissolve-out');
@@ -91,121 +90,80 @@ document.addEventListener('DOMContentLoaded', () => {
         if (phraseThankYou) {
             phraseThankYou.classList.remove('visible');
         }
-
-        stageHeader.classList.remove('revealed');
-        stageFooter.classList.remove('revealed');
     }
 
     /**
-     * Executes the refined animation choreography:
-     * 1. Traces out and fills in "100" (Borg 9 font), holds, then fades out
-     * 2. Traces in "2,199 days" (Thin Non-Italic Cormorant Garamond), holds, then fades out
-     * 3. Traces in "80 videos" (Thin Non-Italic Cormorant Garamond), holds, then fades out
-     * 4. Traces in "14,140 views" (Thin Non-Italic Cormorant Garamond), holds, then slowly fades out
-     * 5. Fades in "100 Subscribers" gracefully, holds, and crossfades into "Thank You"
+     * Main Choreography:
+     * 1. "100" (Borg 9 font) traces out letter-by-letter, fills together, holds, fades out
+     * 2. "2,199 days" (Non-Italic Thin Cormorant Garamond) traces, fills together, holds, fades out
+     * 3. "80 videos" (Non-Italic Thin Cormorant Garamond) traces, fills together, holds, fades out
+     * 4. "14,140 views" (Non-Italic Thin Cormorant Garamond) traces, fills together, holds, slowly fades out
+     * 5. "100 Subscribers" fades in gracefully, holds proudly, then slow-crossfades into "Thank You"
      */
     async function playSequence() {
         resetAll();
         isRunning = true;
 
-        // Brief atmospheric breath before start
-        await wait(250);
+        await wait(300);
         if (!isRunning) return;
 
-        // Stage 1: "100" in Borg 9
+        // Stage 1: "100" (Borg 9)
         stage1.classList.add('active', 'animating');
-        await wait(1350); // Trace & fill duration
-        stage1.classList.add('filled');
-        await wait(1300); // Hold for visual appreciation
+        await wait(2200); // 0.95s trace+fill + 1.25s hold
         stage1.classList.add('fade-out');
-        await wait(950);  // Smooth fade-out
+        await wait(900);
         resetStage(stage1);
 
         if (!isRunning) return;
 
-        // Stage 2: "2,199 days" in Non-Italic Thin Cormorant Garamond
+        // Stage 2: "2,199 days" (Thin Garamond)
         stage2.classList.add('active', 'animating');
-        await wait(1700); // Calligraphy trace & fill
-        stage2.classList.add('filled');
-        await wait(1350); // Hold
+        await wait(2600); // 1.25s trace+fill + 1.35s hold
         stage2.classList.add('fade-out');
-        await wait(950);
+        await wait(900);
         resetStage(stage2);
 
         if (!isRunning) return;
 
-        // Stage 3: "80 videos" in Non-Italic Thin Cormorant Garamond
+        // Stage 3: "80 videos" (Thin Garamond)
         stage3.classList.add('active', 'animating');
-        await wait(1600); // Trace & fill
-        stage3.classList.add('filled');
-        await wait(1350); // Hold
+        await wait(2500); // 1.15s trace+fill + 1.35s hold
         stage3.classList.add('fade-out');
-        await wait(950);
+        await wait(900);
         resetStage(stage3);
 
         if (!isRunning) return;
 
-        // Stage 4: "14,140 views" in Non-Italic Thin Cormorant Garamond
+        // Stage 4: "14,140 views" (Thin Garamond)
         stage4.classList.add('active', 'animating');
-        await wait(1850); // Trace & fill
-        stage4.classList.add('filled');
-        await wait(1400); // Hold
-        // Slow cinematic fade-out into dark
+        await wait(2800); // 1.40s trace+fill + 1.40s hold
+        // "Then slowly fades out"
         stage4.classList.add('slow-fade-out');
-        await wait(1900); // Deliberate, slow fade-out duration
+        await wait(2100); // Slow cinematic fade-out duration
         resetStage(stage4);
 
         if (!isRunning) return;
 
-        // Stage 5: Pause in darkness before finale
-        await wait(600);
+        // Stage 5: Pause in darkness
+        await wait(700);
         if (!isRunning) return;
 
-        // Fade in "100 Subscribers"
+        // "fades in 100 Subscribers"
         stage5.classList.add('active');
         phraseSubscribers.classList.add('visible');
-        await wait(2500); // Meaningful, proud hold on 100 Subscribers
+        await wait(2800); // Extended hold on 100 Subscribers
 
         if (!isRunning) return;
 
-        // Slow cinematic crossfade into "Thank You"
+        // "and crossfades into 'Thank You'"
         phraseSubscribers.classList.add('dissolve-out');
         phraseThankYou.classList.add('visible');
-        await wait(1800); // Crossfade duration
-
-        // Reveal header banner, Perspective in Motion, and italic tysonmediagroup.org footer
-        stageHeader.classList.add('revealed');
-        stageFooter.classList.add('revealed');
 
         isRunning = false;
     }
 
-    // Font-ready gatekeeper with safety fallback
-    function init() {
-        const fontBorgPromise = (document.fonts && document.fonts.load)
-            ? document.fonts.load('120px "Borg 9"')
-            : Promise.resolve();
-
-        const fontGaramondPromise = (document.fonts && document.fonts.load)
-            ? document.fonts.load('300 80px "Cormorant Garamond"')
-            : Promise.resolve();
-
-        const timeoutPromise = new Promise(resolve => setTimeout(resolve, 500));
-
-        // Start sequence as soon as fonts are ready or after 500ms fallback
-        Promise.race([
-            Promise.all([
-                fontBorgPromise,
-                fontGaramondPromise,
-                (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve()
-            ]),
-            timeoutPromise
-        ]).then(() => {
-            playSequence();
-        }).catch(() => {
-            playSequence();
-        });
-    }
+    // Launch sequence automatically
+    setTimeout(playSequence, 400);
 
     // Replay interaction
     btnReplay.addEventListener('click', () => {
@@ -243,7 +201,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
-    // Launch
-    init();
 });
