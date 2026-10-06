@@ -1,0 +1,20 @@
+{
+  "name": "100-tysonmediagroup-org",
+  "version": "1.0.0",
+  "description": "100 Subscribers Milestone Celebration — TYSON Media Group",
+  "main": "script.js",
+  "scripts": {
+    "start": "python3 -m http.server 8080",
+    "deploy": "echo 'Static deployment ready'"
+  },
+  "keywords": [
+    "tysonmediagroup",
+    "100",
+    "celebration",
+    "borg9",
+    "cormorant-garamond",
+    "vector-trace"
+  ],
+  "author": "TYSON Media Group",
+  "license": "ISC"
+}
