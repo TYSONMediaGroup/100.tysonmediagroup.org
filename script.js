@@ -43,8 +43,9 @@ document.addEventListener('DOMContentLoaded', () => {
         currentTimeoutIds = [];
     }
 
-    // Setup animation delays for trace characters
-    function configureCharDelays(stageElement, fillDelayOffset = 0.55) {
+    // Configure animation delays for characters based on their data-delay attribute
+    function configureCharDelays(stageElement, fillDelayOffset = 0.65) {
+        if (!stageElement) return;
         const chars = stageElement.querySelectorAll('.trace-char');
         chars.forEach(char => {
             const drawDelay = parseFloat(char.getAttribute('data-delay') || '0');
@@ -53,30 +54,36 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Configure all trace stages
-    configureCharDelays(stage1, 0.45);
-    configureCharDelays(stage2, 0.55);
-    configureCharDelays(stage3, 0.55);
-    configureCharDelays(stage4, 0.55);
+    // Configure all trace stages with smooth deliberate delays
+    configureCharDelays(stage1, 0.70);
+    configureCharDelays(stage2, 0.65);
+    configureCharDelays(stage3, 0.65);
+    configureCharDelays(stage4, 0.65);
 
-    // Reset a stage's visual state completely
+    // Reset an individual stage element
     function resetStage(stageElement) {
         if (!stageElement) return;
         stageElement.classList.remove('active', 'animating', 'filled', 'fade-out', 'slow-fade-out');
         const chars = stageElement.querySelectorAll('.trace-char');
         chars.forEach(ch => {
             ch.style.animation = 'none';
-            void ch.offsetWidth; // trigger reflow
+            void ch.offsetWidth; // Force DOM reflow
             ch.style.animation = '';
         });
     }
 
-    // Reset everything to pristine initial state
+    // Reset the full experience to pristine starting conditions
     function resetAll() {
         clearAllTimers();
         isRunning = false;
 
         [stage1, stage2, stage3, stage4, stage5].forEach(resetStage);
+
+        // Re-apply char animation delays
+        configureCharDelays(stage1, 0.70);
+        configureCharDelays(stage2, 0.65);
+        configureCharDelays(stage3, 0.65);
+        configureCharDelays(stage4, 0.65);
 
         if (phraseSubscribers) {
             phraseSubscribers.classList.remove('visible', 'dissolve-out');
@@ -90,100 +97,113 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /**
-     * Executes the requested 5-stage animation choreography:
-     * 1. Traces out and fills in "100" (Borg 9 font), then fades out
-     * 2. Traces in "2,199 days" (Cormorant Garamond), then fades out
-     * 3. Traces in "80 videos" (Cormorant Garamond), then fades out
-     * 4. Traces in "14,140 views" (Cormorant Garamond), then slowly fades out
-     * 5. Fades in "100 Subscribers" and crossfades into "Thank You"
+     * Executes the refined animation choreography:
+     * 1. Traces out and fills in "100" (Borg 9 font), holds, then fades out
+     * 2. Traces in "2,199 days" (Thin Non-Italic Cormorant Garamond), holds, then fades out
+     * 3. Traces in "80 videos" (Thin Non-Italic Cormorant Garamond), holds, then fades out
+     * 4. Traces in "14,140 views" (Thin Non-Italic Cormorant Garamond), holds, then slowly fades out
+     * 5. Fades in "100 Subscribers" gracefully, holds, and crossfades into "Thank You"
      */
     async function playSequence() {
         resetAll();
         isRunning = true;
 
+        // Brief atmospheric breath before start
+        await wait(250);
+        if (!isRunning) return;
+
         // Stage 1: "100" in Borg 9
         stage1.classList.add('active', 'animating');
-        await wait(750); // char tracing & fill
+        await wait(1350); // Trace & fill duration
         stage1.classList.add('filled');
-        await wait(850); // display hold
+        await wait(1300); // Hold for visual appreciation
         stage1.classList.add('fade-out');
-        await wait(650); // fade out duration
+        await wait(950);  // Smooth fade-out
         resetStage(stage1);
 
         if (!isRunning) return;
 
-        // Stage 2: "2,199 days" in Cormorant Garamond
+        // Stage 2: "2,199 days" in Non-Italic Thin Cormorant Garamond
         stage2.classList.add('active', 'animating');
-        await wait(1250); // calligraphy trace & fill
+        await wait(1700); // Calligraphy trace & fill
         stage2.classList.add('filled');
-        await wait(800); // display hold
+        await wait(1350); // Hold
         stage2.classList.add('fade-out');
-        await wait(650);
+        await wait(950);
         resetStage(stage2);
 
         if (!isRunning) return;
 
-        // Stage 3: "80 videos" in Cormorant Garamond
+        // Stage 3: "80 videos" in Non-Italic Thin Cormorant Garamond
         stage3.classList.add('active', 'animating');
-        await wait(1150); // trace & fill
+        await wait(1600); // Trace & fill
         stage3.classList.add('filled');
-        await wait(800); // display hold
+        await wait(1350); // Hold
         stage3.classList.add('fade-out');
-        await wait(650);
+        await wait(950);
         resetStage(stage3);
 
         if (!isRunning) return;
 
-        // Stage 4: "14,140 views" in Cormorant Garamond
+        // Stage 4: "14,140 views" in Non-Italic Thin Cormorant Garamond
         stage4.classList.add('active', 'animating');
-        await wait(1350); // trace & fill
+        await wait(1850); // Trace & fill
         stage4.classList.add('filled');
-        await wait(900); // display hold
-        // "Then slowly fades out"
+        await wait(1400); // Hold
+        // Slow cinematic fade-out into dark
         stage4.classList.add('slow-fade-out');
-        await wait(1400); // slow fade out duration
+        await wait(1900); // Deliberate, slow fade-out duration
         resetStage(stage4);
 
         if (!isRunning) return;
 
-        // Stage 5: "100 Subscribers" fades in, then crossfades into "Thank You"
+        // Stage 5: Pause in darkness before finale
+        await wait(600);
+        if (!isRunning) return;
+
+        // Fade in "100 Subscribers"
         stage5.classList.add('active');
         phraseSubscribers.classList.add('visible');
-        await wait(1600); // hold 100 Subscribers
+        await wait(2500); // Meaningful, proud hold on 100 Subscribers
 
         if (!isRunning) return;
 
-        // Crossfade: subscribers dissolves out, Thank You emerges
+        // Slow cinematic crossfade into "Thank You"
         phraseSubscribers.classList.add('dissolve-out');
         phraseThankYou.classList.add('visible');
-        await wait(1100);
+        await wait(1800); // Crossfade duration
 
-        // Reveal branding & controls gently
+        // Reveal header banner, Perspective in Motion, and italic tysonmediagroup.org footer
         stageHeader.classList.add('revealed');
         stageFooter.classList.add('revealed');
 
         isRunning = false;
     }
 
-    // Font-ready gatekeeper before starting sequence
+    // Font-ready gatekeeper with safety fallback
     function init() {
         const fontBorgPromise = (document.fonts && document.fonts.load)
             ? document.fonts.load('120px "Borg 9"')
             : Promise.resolve();
 
         const fontGaramondPromise = (document.fonts && document.fonts.load)
-            ? document.fonts.load('italic 80px "Cormorant Garamond"')
+            ? document.fonts.load('300 80px "Cormorant Garamond"')
             : Promise.resolve();
 
-        Promise.all([
-            fontBorgPromise,
-            fontGaramondPromise,
-            (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve()
+        const timeoutPromise = new Promise(resolve => setTimeout(resolve, 500));
+
+        // Start sequence as soon as fonts are ready or after 500ms fallback
+        Promise.race([
+            Promise.all([
+                fontBorgPromise,
+                fontGaramondPromise,
+                (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve()
+            ]),
+            timeoutPromise
         ]).then(() => {
-            // Short initial atmospheric pause before launching
-            setTimeout(playSequence, 350);
+            playSequence();
         }).catch(() => {
-            setTimeout(playSequence, 350);
+            playSequence();
         });
     }
 
