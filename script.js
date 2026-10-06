@@ -1,6 +1,7 @@
 /**
  * TYSON Media Group — 100 Subscribers Milestone Celebration
- * Orchestration controller: Signature vector trace, unified phrase illumination, and crossfade engine.
+ * Orchestration controller: Signature vector trace, unified phrase illumination,
+ * crossfade engine, and soundtrack sync (Brothertiger - Tide Pool @ 3:30 - 4:30).
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -83,6 +84,12 @@ document.addEventListener('DOMContentLoaded', () => {
     async function playSequence() {
         resetAll();
         isRunning = true;
+
+        // Sync soundtrack to beginning of 3:30 timestamp clip on each play/replay
+        if (audio && isAudioPlaying) {
+            audio.currentTime = 0;
+            audio.play().catch(() => {});
+        }
 
         await wait(300);
         if (!isRunning) return;
@@ -171,13 +178,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Sound toggle controller
+    // Sound toggle controller: Tide Pool (3:30 - 4:30)
     if (audio && btnSound) {
-        audio.volume = 0.5;
+        audio.volume = 0.65;
+        audio.loop = true; // Loops the 3:30 - 4:30 atmosphere seamlessly
 
         btnSound.addEventListener('click', (e) => {
             e.stopPropagation();
             if (!isAudioPlaying) {
+                audio.currentTime = 0;
                 audio.play().then(() => {
                     isAudioPlaying = true;
                     iconSoundOff.style.display = 'none';
